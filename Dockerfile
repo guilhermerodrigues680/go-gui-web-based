@@ -2,7 +2,6 @@ FROM scratch
 
 EXPOSE 9001
 
-# Copy our static executable.
-COPY example /go/bin/example
+COPY go-gui-web-based /go/bin/go-gui-web-based
 
-ENTRYPOINT ["/go/bin/example"]
+ENTRYPOINT ["/go/bin/go-gui-web-based"]

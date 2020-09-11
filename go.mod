@@ -1,4 +1,4 @@
-module app
+module github.com/guilhermerodrigues680/go-gui-web-based
 
 go 1.15
 

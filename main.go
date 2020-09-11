@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os/exec"
-	"runtime"
 
+	"github.com/guilhermerodrigues680/go-gui-web-based/apis/apiv1"
+	"github.com/guilhermerodrigues680/go-gui-web-based/browserutil"
 	"github.com/markbates/pkger"
 )
 
@@ -19,6 +19,7 @@ func main() {
 }
 
 func run() error {
+	const RunInContainer bool = false
 	const Port string = ":9001"
 	const ServerURL string = "http://localhost" + Port
 
@@ -31,38 +32,13 @@ func run() error {
 	// http.Handle("/", fs)
 
 	// API
-	http.HandleFunc("/api", index)
-	http.HandleFunc("/api/about", about)
+	http.HandleFunc("/api", apiv1.Index)
+	http.HandleFunc("/api/about", apiv1.About)
 
-	// openbrowser(ServerURL)
+	if RunInContainer == false {
+		browserutil.Openbrowser(ServerURL)
+	}
 
 	fmt.Println("Servidor iniciado em: ", ServerURL)
 	return http.ListenAndServe(Port, nil)
-}
-
-func openbrowser(url string) {
-	var err error
-
-	switch runtime.GOOS {
-	case "linux":
-		err = exec.Command("xdg-open", url).Start()
-	case "windows":
-		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
-	case "darwin":
-		err = exec.Command("open", url).Start()
-	default:
-		err = fmt.Errorf("unsupported platform")
-	}
-	if err != nil {
-		log.Fatal(err)
-	}
-
-}
-
-func index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "<h1>Hello World</h1>")
-}
-
-func about(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "<h1>About</h1>")
 }

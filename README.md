@@ -15,3 +15,12 @@
 go env -u GOPATH
 go env -u GOBIN
 ```
+
+## Makefile
+
+```Makefile
+make
+make build-windows
+make build-mac
+make build-linux
+```
