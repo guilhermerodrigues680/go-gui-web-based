@@ -19,7 +19,7 @@ func main() {
 }
 
 func run() error {
-	const RunInContainer bool = false
+	const RunInContainer bool = true
 	const Port string = ":9001"
 	const ServerURL string = "http://localhost" + Port
 
@@ -34,6 +34,7 @@ func run() error {
 	// API
 	http.HandleFunc("/api", apiv1.Index)
 	http.HandleFunc("/api/about", apiv1.About)
+	http.HandleFunc("/api/dev", apiv1.Dev)
 
 	if RunInContainer == false {
 		browserutil.Openbrowser(ServerURL)
